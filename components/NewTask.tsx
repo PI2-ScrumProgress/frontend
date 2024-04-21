@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import { createTask } from "@/api/backlog";
 
 const NewTask = () => {
+  const [projectId, setProjectId] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState("Alta");
+  const [dueDate, setDueDate] = useState("");
+
+  const handleCreateTask = async () => {
+    try {
+      setProjectId("1");
+      const data = await createTask(
+        projectId,
+        title,
+        description,
+        priority,
+        dueDate
+      );
+      console.log("Task created", data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="p-6 max-w-md w-full bg-white shadow-md rounded-md">
         <div className="mb-4">
           <h2 className="text-xl font-bold text-gray-700">Nueva Tarea</h2>
         </div>
-        <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleCreateTask();
+          }}
+        >
           <div className="mb-4 grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="title" className="block text-sm text-gray-600">
@@ -18,6 +46,7 @@ const NewTask = () => {
                 name="title"
                 id="title"
                 placeholder="Título de la tarea"
+                onChange={(e) => setTitle(e.target.value)}
                 className="px-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
@@ -28,6 +57,7 @@ const NewTask = () => {
               <select
                 name="priority"
                 id="priority"
+                onChange={(e) => setPriority(e.target.value)}
                 className="px-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 <option value="Alta">Alta</option>
@@ -48,6 +78,7 @@ const NewTask = () => {
               id="description"
               rows={4}
               placeholder="Añadir descripción"
+              onChange={(e) => setDescription(e.target.value)}
               className="px-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             ></textarea>
           </div>
@@ -59,6 +90,7 @@ const NewTask = () => {
               type="date"
               name="due-date"
               id="due-date"
+              onChange={(e) => setDueDate(e.target.value)}
               className="px-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>

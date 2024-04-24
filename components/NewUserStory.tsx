@@ -1,6 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { createStory } from "@/api/backlog";
 
 const NewUserStory = () => {
+
+  const [projectId, setProjectId] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState("Alta");
+  const [acceptanceCriteria, setCriteria] = useState("");
+  const [storyPoints, setPoints] = useState(0);
+
+
+  const handleCreateStory = async () => {
+    try {
+      setProjectId("1");
+      const data = await createStory(
+
+        projectId,
+        title,
+        description,
+        priority,
+        acceptanceCriteria,
+        storyPoints,
+
+      );
+
+      console.log("Story created", data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="p-6 max-w-2xl w-full bg-white shadow-md rounded-md">
@@ -20,6 +49,7 @@ const NewUserStory = () => {
                 name="title"
                 id="title"
                 placeholder="Título de la tarea"
+                onChange={(e) => setTitle(e.target.value)}
                 className="px-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
               />
             </div>
@@ -30,6 +60,7 @@ const NewUserStory = () => {
               <select
                 name="priority"
                 id="priority"
+                onChange={(e) => setPriority(e.target.value)}
                 className="px-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
               >
                 <option value="Alta">Alta</option>
@@ -50,6 +81,7 @@ const NewUserStory = () => {
               id="description"
               rows={4}
               placeholder="Añadir descripción"
+              onChange={(e) => setDescription(e.target.value)}
               className="px-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
             ></textarea>
           </div>
@@ -65,6 +97,7 @@ const NewUserStory = () => {
               id="acceptanceCriteria"
               rows={4}
               placeholder="Criterios de aceptación"
+              onChange={(e) => setCriteria(e.target.value)}
               className="px-4 py-2 w-full border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
             ></textarea>
           </div>

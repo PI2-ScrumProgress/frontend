@@ -4,7 +4,7 @@ import { NewUserStory } from "@/components/NewUserStory";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex flex-col">
       <Login />
       <NewTask />
       <NewUserStory />

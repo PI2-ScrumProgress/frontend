@@ -1,12 +1,16 @@
 interface Button {
   title: string;
+  onClick?: () => void;
 }
 
 interface ButtonProps {}
 
-const Button = ({ title }: Button) => {
+const Button = ({ title, onClick }: Button) => {
   return (
-    <button className="bg-green-base w-[150px] h-[40px] hover:cursor-pointer hover:bg-black1">
+    <button
+      onClick={onClick}
+      className="bg-green-base w-[150px] h-[40px] hover:cursor-pointer hover:bg-black1"
+    >
       {title}
     </button>
   );

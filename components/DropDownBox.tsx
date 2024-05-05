@@ -1,8 +1,10 @@
 interface DropDownBox {
   title: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const DropDownBox = ({ title }: DropDownBox) => {
+const DropDownBox = ({ title, value, onChange }: DropDownBox) => {
   return (
     <div className="sm:col-span-3 flex items-center gap-x-5">
       <span className="font-semibold">{title}</span>
@@ -11,6 +13,8 @@ const DropDownBox = ({ title }: DropDownBox) => {
           id="priority"
           name="priority"
           autoComplete="priority-level"
+          value={value}
+          onChange={onChange}
           className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
         >
           <option>Alta</option>

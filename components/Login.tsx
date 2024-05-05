@@ -29,10 +29,20 @@ const Login: React.FC = () => {
         />
         <span className="font-bold">Iniciar Sesión</span>
         <div>
-          <TextBox title="Correo:" text="Ingrese su correo" />
-          <TextBox title="Contraseña:" text="Ingrese su contraseña" />
+          <TextBox
+            title="Correo:"
+            text="Ingrese su correo"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextBox
+            title="Contraseña:"
+            text="Ingrese su contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
-        <Button title="Iniciar sesión" />
+        <Button title="Iniciar sesión" onClick={handleLogin} />
       </div>
     </div>
   );

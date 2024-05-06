@@ -1,6 +1,7 @@
 import { NewTask } from "@/components/NewTask";
 import { Login } from "@/components/Login";
 import { NewUserStory } from "@/components/NewUserStory";
+import App from "@/components/ListBacklogElements";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Login />
       <NewTask />
       <NewUserStory />
+      <App />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { TextBox } from "./TextBox";
 import { DropDownBox } from "./DropDownBox";
 import { Description } from "./Description";
 import { Button } from "./Button";
-import { createStory } from "@/api/backlog";
+import { createStory } from "@/api/backlog/newBacklogElement";
 
 const NewUserStory = () => {
   const [projectId, setProjectId] = useState("");

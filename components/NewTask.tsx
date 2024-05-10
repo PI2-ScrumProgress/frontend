@@ -4,7 +4,7 @@ import { Description } from "./Description";
 import { DateBox } from "./DateBox";
 import { Button } from "./Button";
 import React, { useState } from "react";
-import { createTask } from "@/api/backlog";
+import { createTask } from "@/api/backlog/newBacklogElement";
 
 const NewTask = () => {
   const [projectId, setProjectId] = useState("");

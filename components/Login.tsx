@@ -2,7 +2,7 @@ import { TextBox } from "@/components/TextBox";
 import { Button } from "./Button";
 import Image from "next/image";
 import React, { useState } from "react";
-import { login } from "@/api/auth";
+import { login } from "@/api/auth/auth";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");

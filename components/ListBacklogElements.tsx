@@ -1,33 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  getBacklogElements,
+  BacklogElement,
+} from "@/api/backlog/getBacklogElement";
+import { getUsers, User } from "@/api/user/user";
 
 function App() {
-  const data = [
-    { title: "Tarea 1", type: "Tarea", status: "Completada", date: "XX/XX/XX" },
-    { title: "Tarea 2", type: "Tarea", status: "Nuevo", date: "XX/XX/XX" },
-    {
-      title: "Historia de usuario 1",
-      type: "Historia",
-      status: "Activa",
-      date: "XX/XX/XX",
-    },
-    { title: "Tarea 3", type: "Tarea", status: "Nuevo", date: "XX/XX/XX" },
-    {
-      title: "Historia de usuario 2",
-      type: "Historia",
-      status: "Nuevo",
-      date: "XX/XX/XX",
-    },
-  ];
+  const [backlogElements, setBacklogElements] = useState<BacklogElement[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [userSearch, setUserSearch] = useState<string>("");
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
-  // Supongamos que esta es la lista de usuarios que puedes asignar
-  const users = [
-    { id: 1, name: "Usuario 1" },
-    { id: 2, name: "Usuario 2" },
-    { id: 3, name: "Usuario 3" },
-  ];
+  useEffect(() => {
+    getBacklogElements()
+      .then((elements) => {
+        setBacklogElements(elements);
+        setSelectedUsers(Array(elements.length).fill(""));
+      })
+      .catch((error) => {
+        console.error("Error al obtener elementos del backlog:", error);
+      });
 
-  const [userSearch, setUserSearch] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState(data.map(() => ""));
+    getUsers()
+      .then((users) => {
+        setUsers(users);
+      })
+      .catch((error) => {
+        console.error("Error al obtener usuarios:", error);
+      });
+  }, []);
 
   const handleSelectUser = (index: number, userId: string) => {
     const updatedUsers = [...selectedUsers];
@@ -35,14 +36,12 @@ function App() {
     setSelectedUsers(updatedUsers);
   };
 
-  const handleSearchChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserSearch(event.target.value);
   };
 
   const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(userSearch.toLowerCase())
+    user.username.toLowerCase().includes(userSearch.toLowerCase())
   );
 
   return (
@@ -65,17 +64,15 @@ function App() {
             <th className="px-4 py-2">Título</th>
             <th className="px-4 py-2">Tipo</th>
             <th className="px-4 py-2">Estado</th>
-            <th className="px-4 py-2">Fecha límite</th>
             <th className="px-4 py-2">Asignado a</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {backlogElements.map((item, index) => (
             <tr className="text-center" key={index}>
               <td className="border px-4 py-2">{item.title}</td>
-              <td className="border px-4 py-2">{item.type}</td>
+              <td className="border px-4 py-2">{item.elementType}</td>
               <td className="border px-4 py-2">{item.status}</td>
-              <td className="border px-4 py-2">{item.date}</td>
               <td className="border px-4 py-2">
                 <select
                   className="border px-4 py-2 rounded"
@@ -85,7 +82,7 @@ function App() {
                   <option value="">Seleccionar usuario</option>
                   {filteredUsers.map((user) => (
                     <option key={user.id} value={user.id}>
-                      {user.name}
+                      {user.username}
                     </option>
                   ))}
                 </select>

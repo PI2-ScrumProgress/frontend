@@ -1,6 +1,7 @@
 import { NewTask } from "@/components/NewTask";
 import { Login } from "@/components/Login";
 import { NewUserStory } from "@/components/NewUserStory";
+import { EmploymentPoints } from "@/components/EmploymentPoints";
 import App from "@/components/ListBacklogElements";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <NewTask />
       <NewUserStory />
       <App />
+      <EmploymentPoints />
     </div>
   );
 }

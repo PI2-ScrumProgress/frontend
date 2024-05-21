@@ -1,24 +1,19 @@
 import api from "../config/api";
-
-interface BacklogAssign {
-  userId: string;
-  backlogElementId: string;
-}
+import { BacklogElement } from "./getBacklogElement";
 
 export const assignBacklogElement = async (
   backlogElementId: string,
   userId: string
-): Promise<BacklogAssign> => {
+): Promise<BacklogElement> => {
+  console.log(
+    `Asignando elemento ${backlogElementId} al usuario ${userId} inside assignBacklogElement`
+  );
   try {
-    const response = await api.get<BacklogAssign>(
-      "backlog-assignments/assign",
-      {
-        params: {
-          backlogElementId,
-          userId,
-        },
-      }
-    );
+    const response = await api.put<BacklogElement>("/backlog-elements/assign", {
+      backlogElementId,
+      userId,
+    });
+    console.log(response.data);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response.data);

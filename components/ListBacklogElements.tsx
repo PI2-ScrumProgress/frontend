@@ -4,6 +4,7 @@ import {
   BacklogElement,
 } from "@/api/backlog/getBacklogElement";
 import { getUsers, User } from "@/api/user/user";
+import { assignBacklogElement } from "@/api/backlog/assignBacklogElement";
 
 function App() {
   const [backlogElements, setBacklogElements] = useState<BacklogElement[]>([]);
@@ -15,7 +16,11 @@ function App() {
     getBacklogElements()
       .then((elements) => {
         setBacklogElements(elements);
-        setSelectedUsers(Array(elements.length).fill(""));
+        // Inicializar selectedUsers con los userId de cada backlogElement
+        const initialSelectedUsers = elements.map(
+          (element) => element.userId || ""
+        );
+        setSelectedUsers(initialSelectedUsers);
       })
       .catch((error) => {
         console.error("Error al obtener elementos del backlog:", error);
@@ -30,10 +35,22 @@ function App() {
       });
   }, []);
 
-  const handleSelectUser = (index: number, userId: string) => {
+  const handleSelectUser = (backlogIndex: number, userId: string) => {
     const updatedUsers = [...selectedUsers];
-    updatedUsers[index] = userId;
+    updatedUsers[backlogIndex] = userId;
     setSelectedUsers(updatedUsers);
+
+    // Llamar a assignBacklogElement para registrar el cambio en la base de datos
+    const elementId = backlogElements[backlogIndex].id;
+    assignBacklogElement(elementId, userId)
+      .then(() => {
+        console.log(
+          `Elemento de backlog ${elementId} asignado al usuario ${userId}`
+        );
+      })
+      .catch((error) => {
+        console.error("Error al asignar usuario:", error);
+      });
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

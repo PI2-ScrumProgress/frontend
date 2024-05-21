@@ -2,9 +2,15 @@ import api from "../config/api";
 
 export interface BacklogElement {
   id: string;
-  title: string;
-  status: string;
+  projectId: string;
+  userId: string;
   elementType: string;
+  title: string;
+  description: string;
+  status: string;
+  cressationDate: string;
+  dueDate: string;
+  completionDate: string;
 }
 
 export async function getBacklogElements(): Promise<BacklogElement[]> {

@@ -1,7 +1,15 @@
 import { User, getUsers, getUsersOrderedByPoints } from "@/api/user/user";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
+import { Button } from "./Button";
+import { useRouter } from "next/navigation";
 
 const EmploymentPoints = () => {
+  const router = useRouter();
+
+  const handleBacklogClick = () => {
+    router.push("/backlog");
+  };
+
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -16,7 +24,10 @@ const EmploymentPoints = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Puntajes de Empleados</h2>
+      <div className="flex justify-between py-4">
+        <h2 className="text-2xl font-bold mb-4">Puntajes de Empleados</h2>
+        <Button title="Ver backlog" onClick={handleBacklogClick} />
+      </div>
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>

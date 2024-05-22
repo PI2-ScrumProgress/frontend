@@ -5,8 +5,15 @@ import { DateBox } from "./DateBox";
 import { Button } from "./Button";
 import React, { useState } from "react";
 import { createTask } from "@/api/backlog/newBacklogElement";
+import { useRouter } from "next/router";
 
 const NewTask = () => {
+  const router = useRouter();
+
+  const handleOnCancelClick = () => {
+    router.back();
+  };
+
   const [projectId, setProjectId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -32,6 +39,8 @@ const NewTask = () => {
         dueDate
       );
       console.log("Task created", data);
+
+      router.push("/backlog");
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +78,7 @@ const NewTask = () => {
           onChange={(e) => setDueDate(e.target.value)}
         />
         <div className="flex justify-center gap-x-10 p-5">
-          <Button title="Cancelar" />
+          <Button title="Cancelar" onClick={handleOnCancelClick} />
           <Button title="Crear tarea" onClick={handleCreateTask} />
         </div>
       </div>

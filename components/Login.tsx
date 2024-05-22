@@ -3,8 +3,11 @@ import { Button } from "./Button";
 import Image from "next/image";
 import React, { useState } from "react";
 import { login } from "@/api/auth/auth";
+import { useRouter } from "next/router";
 
 const Login: React.FC = () => {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,6 +15,7 @@ const Login: React.FC = () => {
     try {
       const data = await login(email, password);
       console.log("Login success", localStorage.getItem("accessToken"));
+      router.push("/backlog");
     } catch (error) {
       console.error(error);
     }

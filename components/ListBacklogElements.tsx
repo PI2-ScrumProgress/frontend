@@ -5,11 +5,26 @@ import {
 } from "@/api/backlog/getBacklogElement";
 import { getUsers, User } from "@/api/user/user";
 import { assignBacklogElement } from "@/api/backlog/assignBacklogElement";
+import { useRouter } from "next/navigation";
+import { on } from "events";
 
-function App() {
+export function App() {
+  const router = useRouter();
+
+  const handleOnCreateTaskClick = () => {
+    router.push("/new/task");
+  };
+
+  const handleOnCreateUserStoryClick = () => {
+    router.push("/new/user-story");
+  };
+
+  const handleOnUserList = () => {
+    router.push("/");
+  };
+
   const [backlogElements, setBacklogElements] = useState<BacklogElement[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  const [userSearch, setUserSearch] = useState<string>("");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
   useEffect(() => {
@@ -53,27 +68,29 @@ function App() {
       });
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserSearch(event.target.value);
-  };
-
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(userSearch.toLowerCase())
-  );
-
   return (
     <div className="container mx-auto px-4 bg-gray-100">
       <div className="flex justify-between items-center py-4">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Crear nuevo elemento
+        <div>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-4"
+            onClick={handleOnCreateTaskClick}
+          >
+            Crear nueva tarea
+          </button>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-4"
+            onClick={handleOnCreateUserStoryClick}
+          >
+            Crear nueva historias de usuario
+          </button>
+        </div>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-4"
+          onClick={handleOnUserList}
+        >
+          Volver a puntajes
         </button>
-        <input
-          type="text"
-          placeholder="Buscar usuario..."
-          className="px-4 py-2 rounded"
-          value={userSearch}
-          onChange={handleSearchChange}
-        />
       </div>
       <table className="table-auto w-full">
         <thead>
@@ -103,7 +120,7 @@ function App() {
                   onChange={(e) => handleSelectUser(index, e.target.value)}
                 >
                   <option value="">Seleccionar usuario</option>
-                  {filteredUsers.map((user) => (
+                  {users.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.username}
                     </option>

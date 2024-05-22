@@ -5,8 +5,15 @@ import { Description } from "./Description";
 import { Button } from "./Button";
 import { createStory } from "@/api/backlog/newBacklogElement";
 import { DateBox } from "./DateBox";
+import { useRouter } from "next/router";
 
 const NewUserStory = () => {
+  const router = useRouter();
+
+  const handleOnCancelClick = () => {
+    router.back();
+  };
+
   const [projectId, setProjectId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -28,6 +35,8 @@ const NewUserStory = () => {
       );
 
       console.log("Story created", data);
+
+      router.push("/backlog");
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +80,7 @@ const NewUserStory = () => {
           onChange={(e) => setDueDate(e.target.value)}
         />
         <div className="flex justify-center gap-x-10 p-5">
-          <Button title="Cancelar" />
+          <Button title="Cancelar" onClick={handleOnCancelClick} />
           <Button title="Crear HU" onClick={handleCreateStory} />
         </div>
       </div>

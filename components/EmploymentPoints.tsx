@@ -1,12 +1,19 @@
-import React from "react";
-
-const empleados = [
-  { nombre: "Empleado 1", tareas: 5, puntaje: 75 },
-  { nombre: "Empleado 2", tareas: 3, puntaje: 45 },
-  { nombre: "Empleado 3", tareas: 8, puntaje: 120 },
-];
+import { User, getUsers, getUsersOrderedByPoints } from "@/api/user/user";
+import React, { useEffect, useState } from "react";
 
 const EmploymentPoints = () => {
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    getUsersOrderedByPoints()
+      .then((users) => {
+        setUsers(users);
+      })
+      .catch((error) => {
+        console.error("Error al obtener usuarios:", error);
+      });
+  }, []);
+
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Puntajes de Empleados</h2>
@@ -25,13 +32,13 @@ const EmploymentPoints = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {empleados.map((empleado, index) => (
+          {users.map((user, index) => (
             <tr key={index}>
-              <td className="px-6 py-4 whitespace-nowrap">{empleado.nombre}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{empleado.tareas}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{user.username}</td>
               <td className="px-6 py-4 whitespace-nowrap">
-                {empleado.puntaje}
+                {user.completedTasks}
               </td>
+              <td className="px-6 py-4 whitespace-nowrap">{user.points}</td>
             </tr>
           ))}
         </tbody>

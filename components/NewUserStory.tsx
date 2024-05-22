@@ -4,6 +4,7 @@ import { DropDownBox } from "./DropDownBox";
 import { Description } from "./Description";
 import { Button } from "./Button";
 import { createStory } from "@/api/backlog/newBacklogElement";
+import { DateBox } from "./DateBox";
 
 const NewUserStory = () => {
   const [projectId, setProjectId] = useState("");
@@ -12,6 +13,7 @@ const NewUserStory = () => {
   const [priority, setPriority] = useState("Alta");
   const [acceptanceCriteria, setCriteria] = useState("");
   const [storyPoints, setPoints] = useState(0);
+  const [dueDate, setDueDate] = useState("");
 
   const handleCreateStory = async () => {
     try {
@@ -62,6 +64,11 @@ const NewUserStory = () => {
           text="Ingrese los criterios de aceptación de la historia de usuario"
           value={acceptanceCriteria}
           onChange={(e) => setCriteria(e.target.value)}
+        />
+        <DateBox
+          title="Fecha límite:"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
         />
         <div className="flex justify-center gap-x-10 p-5">
           <Button title="Cancelar" />

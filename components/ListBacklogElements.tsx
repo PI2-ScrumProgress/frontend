@@ -80,6 +80,7 @@ function App() {
           <tr className="bg-gray-200">
             <th className="px-4 py-2">Título</th>
             <th className="px-4 py-2">Tipo</th>
+            <th className="px-4 py-2">Fecha límite</th>
             <th className="px-4 py-2">Estado</th>
             <th className="px-4 py-2">Asignado a</th>
           </tr>
@@ -89,6 +90,11 @@ function App() {
             <tr className="text-center" key={index}>
               <td className="border px-4 py-2">{item.title}</td>
               <td className="border px-4 py-2">{item.elementType}</td>
+              <td className="border px-4 py-2">
+                {item.dueDate === null
+                  ? ""
+                  : new Date(item.dueDate).toLocaleDateString()}
+              </td>
               <td className="border px-4 py-2">{item.status}</td>
               <td className="border px-4 py-2">
                 <select
